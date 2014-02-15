@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Widespace.AdSpaceProvisioner;
 using System.Threading;
 using NMock;
@@ -7,19 +7,19 @@ using System.Collections.Generic;
 
 namespace Widespace.UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class ProvisionTest
     {
         private MockFactory _factory = new MockFactory();
-
-        [TestCleanup]
+        
+        /*[TestTea]
         public void Cleanup()
         {
             _factory.VerifyAllExpectationsHaveBeenMet();
             _factory.ClearExpectations();
-        }
+        }*/
 
-        [TestMethod]
+        [Test]
         public void EnsureOnlySingleInstanceWithThreadSafety()
         {
             int caller = 10;
@@ -134,7 +134,7 @@ namespace Widespace.UnitTest
             Assert.AreEqual(ProvisionStatus.DONE, provisioner.Status);
         }*/
 
-        [TestMethod]
+        [Test]
         public void StoreKeyWillStoreDataIntoDictionary()
         {
             var provisioner = Provisioner.ProvisionerInstance;
@@ -142,7 +142,7 @@ namespace Widespace.UnitTest
             Assert.AreEqual("TestValue", provisioner.ReadKey("TestKey"));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void StoreKeyWillThrowExceptionIfKeyAlreadyExists()
         {
@@ -153,7 +153,7 @@ namespace Widespace.UnitTest
             provisioner.StoreKey("TestKey1", "TestValue1");
         }
 
-        [TestMethod]
+        [Test]
         public void ReadKeyWillReturnExpectedValueFromStore()
         {
             var provisioner = Provisioner.ProvisionerInstance;
@@ -162,7 +162,7 @@ namespace Widespace.UnitTest
             Assert.AreEqual("TestValue4", provisioner.ReadKey("TestKey4"));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReadKeyWillThrowExceptionIfKeyNotExists()
         {
@@ -171,7 +171,7 @@ namespace Widespace.UnitTest
             provisioner.ReadKey("TestKey8");
         }
 
-        [TestMethod]
+        [Test]
         public void ListenerRegisterUnregisterCheck()
         {
             var provisioner = Provisioner.ProvisionerInstance;
@@ -186,7 +186,7 @@ namespace Widespace.UnitTest
             Assert.AreEqual(0, provisioner.GetListenerCount());
         }
         
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(TimeoutException))]
         public void HTTPRequestFailedWillThrowTimeoutException()
         {
@@ -194,7 +194,7 @@ namespace Widespace.UnitTest
             provisionerService.SendAsyncRequest("http://na.widespace.com", TestDelegateMethod3);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void ParseInvalidJsonReplyWillThrowException()
         {
@@ -202,7 +202,7 @@ namespace Widespace.UnitTest
             provisionerService.ParseResponse("InvalidJson");
         }
 
-        [TestMethod]
+        [Test]
         public void ParseProvisioningResponseTest()
         {
             Provisioner provisioner = Provisioner.ProvisionerInstance;
@@ -215,7 +215,7 @@ namespace Widespace.UnitTest
             Assert.AreEqual(expectedKeyValue, actualKeyValue);
         }
 
-        [TestMethod]
+        [Test]
         public void GetServiceURLWillReturnValidUrl()
         {
             HttpRequestSender provisionerService = new HttpRequestSender();
@@ -223,7 +223,7 @@ namespace Widespace.UnitTest
             Assert.IsTrue(Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void SendRequestFuncWillThrowExceptionforInvalidUrl()
         {
