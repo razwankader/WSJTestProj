@@ -159,7 +159,7 @@ namespace Widespace.UnitTest
             var provisioner = Provisioner.ProvisionerInstance;
             provisioner.StoreKey("TestKey4", "TestValue4");
             provisioner.StoreKey("TestKey5", "TestValue5");
-            Assert.AreEqual("TestValue4", provisioner.ReadKey("TestKey4"));
+            Assert.AreEqual("TestValue4", provisioner.ReadKey("TestKey5"));
         }
 
         [Test]
